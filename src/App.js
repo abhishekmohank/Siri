@@ -43,7 +43,6 @@ function App() {
       setSuggestions([]);
     }
   };
-  
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -53,7 +52,7 @@ function App() {
       // Fetch suggestions from the backend based on user input
       fetch(`/api/suggestions?query=${encodeURIComponent(value)}`)
         .then(response => response.json())
-        .then(data => setSuggestions(data))
+        .then(data => setSuggestions(data)) // Assuming the API returns an array of suggestions
         .catch(error => {
           console.error('Error fetching suggestions:', error);
           setSuggestions([]);
@@ -120,20 +119,20 @@ function App() {
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           />
           <button onClick={handleSend} className="send-btn">Send</button>
+          {suggestions.length > 0 && (
+            <div className="suggestions">
+              {suggestions.map((suggestion, index) => (
+                <div
+                  key={index}
+                  className="suggestion"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        {suggestions.length > 0 && (
-          <div className="suggestions">
-            {suggestions.map((suggestion, index) => (
-              <div
-                key={index}
-                className="suggestion"
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
