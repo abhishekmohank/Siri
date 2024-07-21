@@ -18,31 +18,32 @@ function App() {
     if (input.trim() && currentChat) {
       const userMessage = { type: 'user', text: input };
       const updatedCurrentChat = { ...currentChat, messages: [...currentChat.messages, userMessage] };
-
+  
       // Update the current chat and all chats
       setCurrentChat(updatedCurrentChat);
       setAllChats(allChats.map(chat => chat.id === currentChat.id ? updatedCurrentChat : chat));
-
+  
       // Call the chat API to get the bot response
-      fetch('/api/chat', {
+      fetch('http://localhost:8000/echo', {  // Adjusted URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ question: input }),  // Adjusted to match the expected input structure
       })
         .then(response => response.json())
         .then(data => {
-          const botMessage = { type: 'bot', text: data.response };
+          const botMessage = { type: 'bot', text: data.answer };  // Adjusted to match the response structure
           const updatedChat = { ...updatedCurrentChat, messages: [...updatedCurrentChat.messages, botMessage] };
-
+  
           // Update the current chat and all chats
           setCurrentChat(updatedChat);
           setAllChats(allChats.map(chat => chat.id === currentChat.id ? updatedChat : chat));
         });
-
+  
       setInput('');
       setSuggestions([]);
     }
   };
+  
 
   const handleInputChange = (e) => {
     const value = e.target.value;
