@@ -7,6 +7,19 @@ function App() {
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
+  // Hardcoded list of suggestions
+  const hardcodedSuggestions = [
+    'Hello',
+    'How are you?',
+    'Goodbye',
+    'What is your name?',
+    'Tell me a joke',
+    'Help',
+    'Weather',
+    'News',
+    'Search'
+  ];
+
   useEffect(() => {
     // Fetch all chat histories when the component mounts
     fetch('/api/chat-history')
@@ -43,20 +56,17 @@ function App() {
       setSuggestions([]);
     }
   };
-
+  
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInput(value);
 
     if (value.trim()) {
-      // Fetch suggestions from the backend based on user input
-      fetch(`/api/suggestions?query=${encodeURIComponent(value)}`)
-        .then(response => response.json())
-        .then(data => setSuggestions(data)) // Assuming the API returns an array of suggestions
-        .catch(error => {
-          console.error('Error fetching suggestions:', error);
-          setSuggestions([]);
-        });
+      // Filter hardcoded suggestions based on user input
+      const filteredSuggestions = hardcodedSuggestions.filter(suggestion =>
+        suggestion.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
     } else {
       setSuggestions([]);
     }
