@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [allChats, setAllChats] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
+  const [currentChat, setCurrentChat] = useState({ messages: [] }); // Initialize with an empty messages array
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -15,7 +15,7 @@ function App() {
   }, []);
 
   const handleSend = () => {
-    if (input.trim()) {
+    if (input.trim() && currentChat) { // Check if currentChat is not null
       const userMessage = { type: 'user', text: input };
       const updatedCurrentChat = { ...currentChat, messages: [...currentChat.messages, userMessage] };
 
@@ -76,7 +76,7 @@ function App() {
   const handleDeleteChat = (chatId) => {
     setAllChats(allChats.filter(chat => chat.id !== chatId));
     if (currentChat?.id === chatId) {
-      setCurrentChat(null);
+      setCurrentChat({ messages: [] }); // Set to an empty chat if the current one is deleted
     }
   };
 
@@ -99,7 +99,7 @@ function App() {
           <h2>Chat Interface</h2>
         </div>
         <div className="chat-messages">
-          {currentChat?.messages.map((message, index) => (
+          {currentChat?.messages?.map((message, index) => (
             <div key={index} className={`chat-message ${message.type}`}>
               <span>{message.text}</span>
             </div>
