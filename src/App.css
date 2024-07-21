@@ -1,0 +1,139 @@
+/* src/App.css */
+
+.App {
+  display: flex;
+  height: 100vh;
+  background-color: #2e2e2e;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.new-chat-btn {
+  background-color: #ff69b4;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.new-chat-btn:hover {
+  background-color: #ff1493;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.chat-header {
+  padding: 15px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+  background-color: #2e2e2e;
+  border-radius: 10px 10px 0 0;
+}
+
+.chat-header h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: scroll;
+  background-color: #1e1e1e;
+}
+
+.chat-message {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background-color: #444;
+  color: white;
+}
+
+.chat-input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 0 0 10px 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: #444;
+  color: white;
+}
+
+.send-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff69b4;
+  color: white;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background-color: #ff1493;
+}
+
+.suggestions {
+  position: absolute;
+  bottom: 60px;
+  width: calc(100% - 320px);
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 5px;
+  margin-left: 20px;
+  padding: 5px;
+}
+
+.suggestion {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background-color: #444;
+}
