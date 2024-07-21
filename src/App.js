@@ -50,18 +50,30 @@ function App() {
     setInput(value);
 
     if (value.trim()) {
-      // Fetch suggestions from the backend based on user input
-      fetch(`/api/suggestions?query=${encodeURIComponent(value)}`)
-        .then(response => response.json())
-        .then(data => setSuggestions(data))
-        .catch(error => {
-          console.error('Error fetching suggestions:', error);
-          setSuggestions([]);
-        });
+        // Fetch suggestions from the backend based on user input
+        fetch(`http://localhost:8000/suggestions?query=${encodeURIComponent(value)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Access the nested suggestions array
+                const suggestionsArray = data.suggestions.suggestions || [];
+                console.log(suggestionsArray)
+                setSuggestions(suggestionsArray);
+            })
+            .catch(error => {
+                console.error('Error fetching suggestions:', error);
+                setSuggestions([]);
+            });
     } else {
-      setSuggestions([]);
+        setSuggestions([]);
     }
-  };
+};
+
+
 
   const handleSuggestionClick = (suggestion) => {
     setInput(suggestion);
