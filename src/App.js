@@ -73,6 +73,13 @@ function App() {
     setCurrentChat(chat);
   };
 
+  const handleDeleteChat = (chatId) => {
+    setAllChats(allChats.filter(chat => chat.id !== chatId));
+    if (currentChat?.id === chatId) {
+      setCurrentChat(null);
+    }
+  };
+
   return (
     <div className="App">
       <div className="sidebar">
@@ -80,12 +87,9 @@ function App() {
         <button className="new-chat-btn" onClick={handleNewChat}>New Chat</button>
         <div className="chat-history">
           {allChats.map(chat => (
-            <div
-              key={chat.id}
-              className={`chat-history-item ${chat.id === currentChat?.id ? 'active' : ''}`}
-              onClick={() => handleChatClick(chat)}
-            >
-              Chat {chat.id}
+            <div key={chat.id} className={`chat-history-item ${chat.id === currentChat?.id ? 'active' : ''}`}>
+              <span onClick={() => handleChatClick(chat)}>Chat {chat.id}</span>
+              <button className="delete-chat-btn" onClick={() => handleDeleteChat(chat.id)}>×</button>
             </div>
           ))}
         </div>
