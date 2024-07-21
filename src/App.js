@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [allChats, setAllChats] = useState([]);
-  const [currentChat, setCurrentChat] = useState({ messages: [] }); // Initialize with an empty messages array
+  const [currentChat, setCurrentChat] = useState({ messages: [] });
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -15,7 +15,7 @@ function App() {
   }, []);
 
   const handleSend = () => {
-    if (input.trim() && currentChat) { // Check if currentChat is not null
+    if (input.trim() && currentChat) {
       const userMessage = { type: 'user', text: input };
       const updatedCurrentChat = { ...currentChat, messages: [...currentChat.messages, userMessage] };
 
@@ -49,10 +49,14 @@ function App() {
     setInput(value);
 
     if (value.trim()) {
-      // Fetch suggestions based on user input
-      fetch(`/api/suggestions?query=${value}`)
+      // Fetch suggestions from the backend based on user input
+      fetch(`/api/suggestions?query=${encodeURIComponent(value)}`)
         .then(response => response.json())
-        .then(data => setSuggestions(data));
+        .then(data => setSuggestions(data))
+        .catch(error => {
+          console.error('Error fetching suggestions:', error);
+          setSuggestions([]);
+        });
     } else {
       setSuggestions([]);
     }
@@ -76,7 +80,7 @@ function App() {
   const handleDeleteChat = (chatId) => {
     setAllChats(allChats.filter(chat => chat.id !== chatId));
     if (currentChat?.id === chatId) {
-      setCurrentChat({ messages: [] }); // Set to an empty chat if the current one is deleted
+      setCurrentChat({ messages: [] });
     }
   };
 
