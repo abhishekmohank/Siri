@@ -58,11 +58,9 @@ function App() {
           setSuggestions([]);
         });
     } else {
-        setSuggestions([]);
+      setSuggestions([]);
     }
-};
-
-
+  };
 
   const handleSuggestionClick = (suggestion) => {
     setInput(suggestion);
