@@ -57,16 +57,26 @@ function App() {
     }
   };
   
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const value = e.target.value;
     setInput(value);
-
+  
     if (value.trim()) {
-      // Filter hardcoded suggestions based on user input
-      const filteredSuggestions = hardcodedSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
+      try {
+        // Make API call to fetch suggestions
+        const response = await fetch(`http://localhost:8000/suggestions?query=${value}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.suggestions["suggestions"])
+          setSuggestions(data.suggestions["suggestions"]);
+        } else {
+          console.error('Failed to fetch suggestions');
+          setSuggestions([]);
+        }
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSuggestions([]);
+      }
     } else {
       setSuggestions([]);
     }
