@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -6,6 +6,7 @@ function App() {
   const [currentChat, setCurrentChat] = useState({ messages: [] });
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const messagesEndRef = useRef(null);
 
   // Hardcoded list of suggestions
   const hardcodedSuggestions = [
@@ -26,6 +27,11 @@ function App() {
       .then(response => response.json())
       .then(data => setAllChats(data));
   }, []);
+
+  useEffect(() => {
+    // Scroll to the bottom of the chat messages whenever the messages change
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [currentChat.messages]);
 
   const handleSend = () => {
     if (input.trim() && currentChat) {
@@ -83,9 +89,12 @@ function App() {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setInput(suggestion);
+    const words = input.trim().split(' ');
+    words[words.length - 1] = suggestion;
+    setInput(words.join(' '));
     setSuggestions([]);
   };
+  
 
   const handleNewChat = () => {
     const newChat = { id: Date.now(), messages: [] };
@@ -128,6 +137,7 @@ function App() {
               <span>{message.text}</span>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="chat-input-container">
           <input
